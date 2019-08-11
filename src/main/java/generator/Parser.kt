@@ -10,7 +10,7 @@ object Scanner {
                 val episodeFullName =
                     select("h1.film-card__title").text() +
                             ". " +
-                            select("button.film-watching__episode:nth-child(4) > span:last-child").text()
+                            select("button.film-watching__episode:last-child span").text()
 
                 val link = select("div.film-watching__downloads-btn:nth-child(2) > a:nth-child(1)").attr("href")
                 val description =
