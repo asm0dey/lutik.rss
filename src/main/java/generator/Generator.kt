@@ -26,18 +26,18 @@ object Generator {
                         }
                         "title"{ -it.title }
                         "link"{ -it.link }
-                        it.description.let { "description"{ -it } }
+                        it.description.let { "description"{ cdata(it) } }
                         "pubDate"{ -it.pubDate }
                         "generator"{ -it.generator }
                         it.items
-                            .sortedBy(Episode::added, asc = false)
+                            .sortedBy(Episode::added, asc = true)
                             .asSequence()
                             .take(50)
                             .forEach {
                                 "item"{
                                     "title"{ -it.title }
                                     "link"{ -it.link }
-                                    it.description?.let { "description"{ -it } }
+                                    it.description?.let { "description"{ cdata(it) } }
                                     it.pubDate?.let { "pubDate"{ -it } }
                                     it.image?.let {
                                         "media:content"{
