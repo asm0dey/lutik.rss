@@ -3,7 +3,7 @@ package generator
 import org.jsoup.Jsoup
 
 object Scanner {
-    val LOGGER = logger()
+    private val LOGGER = logger()
     fun scan() {
         Repository.urls().forEach { url ->
             LOGGER.info("Scanning url $url")

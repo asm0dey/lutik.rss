@@ -7,7 +7,6 @@ import kotlinx.dnq.store.container.StaticStoreContainer
 import kotlinx.dnq.util.initMetaData
 import org.joda.time.DateTime
 import java.io.File
-import java.util.*
 
 fun initXodus(): TransientEntityStore {
     XdModel.registerNodes(
@@ -16,14 +15,13 @@ fun initXodus(): TransientEntityStore {
 
     val databaseHome = File(System.getProperty("user.home"), ".lutik-store")
 
-    val store = StaticStoreContainer.init(
-        dbFolder = databaseHome,
-        environmentName = "db"
-    )
-
-    initMetaData(XdModel.hierarchy, store)
-
-    return store
+    return StaticStoreContainer
+        .init(
+            dbFolder = databaseHome,
+            environmentName = "db"
+        ).apply {
+            initMetaData(XdModel.hierarchy, this)
+        }
 }
 
 val store = initXodus()
@@ -39,12 +37,12 @@ object Repository {
 
 
     fun removeShow(url: String? = null, name: String? = null) {
-        if (url.isNullOrBlank() && name.isNullOrBlank()) throw IllegalArgumentException()
+        require(!url.isNullOrBlank() || !name.isNullOrBlank())
         store.transactional {
             Subscription
                 .filter { (it.url eq url) or (it.name eq name) }
                 .firstOrNull()
-                ?.let { it.delete() }
+                ?.delete()
         }
     }
 
@@ -87,5 +85,3 @@ object Repository {
         }
     }
 }
-
-fun pubDate() = dateFormat().format(Date())

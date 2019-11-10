@@ -7,8 +7,8 @@ import org.redundent.kotlin.xml.XmlVersion
 import org.redundent.kotlin.xml.xml
 
 object Generator {
-    val LOGGER = logger()
-    fun geenrateRss(prettyPrint: Boolean): String {
+    private val LOGGER = logger()
+    fun generateRSS(prettyPrint: Boolean): String {
         return xml("rss", encoding = "UTF-8", version = XmlVersion.V10) {
             attributes(
                 "version" to "2.0",

@@ -2,20 +2,9 @@ package generator
 
 import com.beust.jcommander.JCommander
 import kotlinx.dnq.query.isEmpty
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Files
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.system.exitProcess
-
-val dateFormat = {
-    SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz").apply {
-        timeZone = TimeZone.getTimeZone("GMT")
-    }
-}
-
 
 fun main(vararg args: String) {
     val add = CommandAdd()
@@ -56,7 +45,7 @@ fun main(vararg args: String) {
     }
     if (jcom.parsedCommand == "scan") {
         Scanner.scan()
-        val message = Generator.geenrateRss(scan.prettyPrint)
+        val message = Generator.generateRSS(scan.prettyPrint)
         if (scan.file == "-") println(message)
         else Files.write(File(scan.file).toPath(), message.lines())
         exitProcess(0)
@@ -79,11 +68,9 @@ private fun init() {
     store.transactional {
         Channel.new {
             title = "Lutik"
-            pubDate = dateFormat().format(Date())
+            pubDate = pubDate()
             description = "Канал Яскъер"
             link = "https://lutik.tv"
         }
     }
 }
-
-inline fun <reified T> T.logger(): Logger = LoggerFactory.getLogger(T::class.java)
