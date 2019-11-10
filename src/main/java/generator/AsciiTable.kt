@@ -1,11 +1,12 @@
 package generator
 
+import java.lang.String.format
 import kotlin.math.max
 import kotlin.math.min
 
 
 class AsciiTable(
-    var maxColumnWidth: Int = Integer.MAX_VALUE,
+    private var maxColumnWidth: Int = Integer.MAX_VALUE,
     private val columns: MutableList<Column> = mutableListOf(),
     private val data: MutableList<Row> = mutableListOf()
 ) {
@@ -43,44 +44,62 @@ class AsciiTable(
 
         writeSeparator(columns, sb)
         writeColumnNames(columns, sb)
-        writeSeparator(columns, sb)
-
-        // values
+        writeSeparatorMiddle(columns, sb)
         writeValues(columns, data, sb)
-
-        writeSeparator(columns, sb)
+        writeSeparatorLast(columns, sb)
 
         println(sb.toString())
     }
 
     private fun writeColumnNames(columns: List<Column>, sb: StringBuilder) {
-        sb.append("|")
+        sb.append("│")
         for (column in columns) {
-            sb.append(String.format(" %-" + column.width + "s", column.name))
-            sb.append("|")
+            sb.append(format(" %-${column.width}s", column.name))
+            sb.append("│")
         }
         sb.append("\n")
     }
 
     private fun writeSeparator(columns: List<Column>, sb: StringBuilder) {
-        sb.append("+")
+        sb.append("┌")
         for (column in columns) {
-            sb.append(String.format("%-" + (column.width + 1) + "s", "").replace(' ', '-'))
-            sb.append("+")
+            sb.append(format("%-${column.width + 1}s", "").replace(' ', '─'))
+            sb.append("┬")
         }
+        sb.setCharAt(sb.lastIndex, '┐')
+        sb.append("\n")
+    }
+
+    private fun writeSeparatorMiddle(columns: List<Column>, sb: StringBuilder) {
+        sb.append("├")
+        for (column in columns) {
+            sb.append(format("%-${column.width + 1}s", "").replace(' ', '─'))
+            sb.append("┼")
+        }
+        sb.setCharAt(sb.lastIndex, '┤')
+        sb.append("\n")
+    }
+
+    private fun writeSeparatorLast(columns: List<Column>, sb: StringBuilder) {
+        sb.append("└")
+        for (column in columns) {
+            sb.append(format("%-${column.width + 1}s", "").replace(' ', '─'))
+            sb.append("┴")
+        }
+        sb.setCharAt(sb.lastIndex, '┘')
         sb.append("\n")
     }
 
     private fun writeValues(columns: List<Column>, rows: List<Row>, sb: StringBuilder) {
         for (row in rows) {
-            sb.append("|")
+            sb.append("│")
             for ((columnIdx, value) in row.values.withIndex()) {
                 var temp = value
                 if (temp.length > maxColumnWidth)
                     temp = value.substring(0, maxColumnWidth - 1)
 
-                sb.append(String.format(" %-" + columns[columnIdx].width + "s", temp))
-                sb.append("|")
+                sb.append(format(" %-${columns[columnIdx].width}s", temp))
+                sb.append("│")
 
             }
             sb.append("\n")
