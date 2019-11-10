@@ -30,7 +30,7 @@ object Generator {
                         "pubDate"{ -it.pubDate }
                         "generator"{ -it.generator }
                         it.items
-                            .sortedBy(Episode::added, asc = true)
+                            .sortedBy(Episode::added, asc = false)
                             .asSequence()
                             .take(50)
                             .forEach {
