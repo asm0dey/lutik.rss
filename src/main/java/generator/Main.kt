@@ -2,6 +2,8 @@ package generator
 
 import com.beust.jcommander.JCommander
 import kotlinx.dnq.query.isEmpty
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Files
 import java.text.SimpleDateFormat
@@ -84,3 +86,4 @@ private fun init() {
     }
 }
 
+inline fun <reified T> T.logger(): Logger = LoggerFactory.getLogger(T::class.java)

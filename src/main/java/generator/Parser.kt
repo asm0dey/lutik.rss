@@ -3,9 +3,10 @@ package generator
 import org.jsoup.Jsoup
 
 object Scanner {
+    val LOGGER = logger()
     fun scan() {
-
         Repository.urls().forEach { url ->
+            LOGGER.info("Scanning url $url")
             Jsoup.connect(url).get().run {
                 val episodeFullName =
                     select("h1.film-card__title").text() +

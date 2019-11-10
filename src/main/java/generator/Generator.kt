@@ -7,6 +7,7 @@ import org.redundent.kotlin.xml.XmlVersion
 import org.redundent.kotlin.xml.xml
 
 object Generator {
+    val LOGGER = logger()
     fun geenrateRss(prettyPrint: Boolean): String {
         return xml("rss", encoding = "UTF-8", version = XmlVersion.V10) {
             attributes(
@@ -34,6 +35,7 @@ object Generator {
                             .asSequence()
                             .take(50)
                             .forEach {
+                                LOGGER.info("Title: ${it.title}, Link: ${it.link}")
                                 "item"{
                                     "title"{ -it.title }
                                     "link"{ -it.link }
