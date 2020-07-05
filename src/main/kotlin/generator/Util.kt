@@ -9,4 +9,5 @@ import java.time.format.DateTimeFormatter
 fun pubDate(): String =
     ZonedDateTime.now(ZoneId.of("GMT")).format(DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss zzz"))
 
-inline fun <reified T> T.logger(): Logger = LoggerFactory.getLogger(T::class.java)
+val <T : Any> T.logger: Logger
+    get() = LoggerFactory.getLogger(this::class.java)

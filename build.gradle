@@ -1,3 +1,13 @@
+buildscript {
+    ext.jetPluginVersion = '1.3.3'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.excelsiorjet:excelsior-jet-gradle-plugin:$jetPluginVersion"
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.72'
     id 'com.github.johnrengelman.shadow' version '6.0.0'
@@ -5,8 +15,10 @@ plugins {
     id "name.remal.check-dependency-updates" version "1.0.200"
 }
 
+apply plugin: 'excelsiorJet'
+
 group 'com.github.asm0dey'
-version '1.0.8'
+version '1.0.9'
 
 repositories {
     mavenLocal()
@@ -21,8 +33,8 @@ dependencies {
     implementation 'org.jetbrains.xodus:xodus-openAPI:1.3.232'
     implementation 'org.jetbrains.xodus:xodus-entity-store:1.3.232'
     implementation 'org.jetbrains.xodus:dnq:1.4.480'
-    implementation "com.beust:jcommander:1.78"
     implementation 'org.jsoup:jsoup:1.13.1'
+    implementation "com.github.ajalt:clikt:2.7.1"
     runtimeOnly 'org.slf4j:slf4j-simple:1.7.30'
 }
 
@@ -35,3 +47,11 @@ compileTestKotlin {
 
 mainClassName = "generator.MainKt"
 
+excelsiorJet {
+    mainClass = 'generator.MainKt'
+    mainJar = file("$buildDir/libs/lutik-rss-generator-$version-all.jar")
+    ignoreProjectDependencies = true
+    pdb {
+        keepInBuildDir = true
+    }
+}
