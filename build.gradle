@@ -1,26 +1,28 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
     id 'application'
-    id "name.remal.check-dependency-updates" version "1.0.173"
+    id "name.remal.check-dependency-updates" version "1.0.200"
 }
 
 group 'com.github.asm0dey'
 version '1.0.8'
 
 repositories {
+    mavenLocal()
     mavenCentral()
     jcenter()
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
     implementation 'org.redundent:kotlin-xml-builder:1.6.0'
-    implementation 'org.jetbrains.xodus:xodus-openAPI:1.3.124'
-    implementation 'org.jetbrains.xodus:xodus-entity-store:1.3.124'
-    implementation 'org.jetbrains.xodus:dnq:1.4.446'
+    implementation 'org.jetbrains.xodus:xodus-openAPI:1.3.232'
+    implementation 'org.jetbrains.xodus:xodus-entity-store:1.3.232'
+    implementation 'org.jetbrains.xodus:dnq:1.4.480'
     implementation "com.beust:jcommander:1.78"
-    implementation 'org.jsoup:jsoup:1.12.2'
+    implementation 'org.jsoup:jsoup:1.13.1'
     runtimeOnly 'org.slf4j:slf4j-simple:1.7.30'
 }
 
@@ -32,3 +34,4 @@ compileTestKotlin {
 }
 
 mainClassName = "generator.MainKt"
+
